@@ -8,7 +8,7 @@ Line.o: Line.cpp
 	g++ Line.cpp -std=c++17 -Wall -c
 
 clean:
-	rm main
+	rm -f *.o main
 
 run:
 	./main points_1000.txt
