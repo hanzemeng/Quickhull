@@ -1,20 +1,46 @@
 #include <iostream>
 #include <fstream>
+#include <iomanip> 
 #include <string>
 #include <vector>
-#include <chrono>
 #include <cmath>
 #include <algorithm>
 using namespace std;
+/*
+#include <chrono>
 using std::chrono::duration_cast;
 using std::chrono::microseconds;
 using std::chrono::system_clock;
+*/
 
 #include "Line.cpp"
 
 vector<Point> res;
 vector<Point> aboveLine;
 vector<Point> belowLine;
+Point center;
+
+void setUp(string path);
+void solveAbove(vector<Point>& points, Point left, Point right);
+void solveBelow(vector<Point>& points, Point left, Point right);
+void sortAndPrint();
+
+int main(int argc, char** argv)
+{
+    string inputPath = "test/";
+    inputPath += argv[1];
+    /*
+    auto begin = duration_cast<microseconds>(system_clock::now().time_since_epoch()).count();
+    auto end = duration_cast<microseconds>(system_clock::now().time_since_epoch()).count();
+    cout << end-begin << endl;
+    */
+    setUp(inputPath);
+    solveAbove(aboveLine, res[0], res[1]);
+    solveBelow(belowLine, res[0], res[1]);
+    sortAndPrint();
+    return 0;
+}
+
 void setUp(string path)
 {
     fstream inFile;
@@ -145,7 +171,6 @@ void solveBelow(vector<Point>& points, Point left, Point right)
     solveBelow(points2, points[furthestPoint], right);
 }
 
-Point center;
 struct comp 
 {
 public:
@@ -164,20 +189,8 @@ public:
         return aAngle<bAngle;
     }
 };
-
-int main(int argc, char** argv)
+void sortAndPrint()
 {
-    string inputPath = "test/";
-    inputPath += argv[1];
-    /*
-    auto begin = duration_cast<microseconds>(system_clock::now().time_since_epoch()).count();
-    auto end = duration_cast<microseconds>(system_clock::now().time_since_epoch()).count();
-    cout << end-begin << endl;
-    */
-    setUp(inputPath);
-    solveAbove(aboveLine, res[0], res[1]);
-    solveBelow(belowLine, res[0], res[1]);
-    
     double tempX = 0;
     double tempY = 0;
     for(Point& p : res)
@@ -187,8 +200,9 @@ int main(int argc, char** argv)
     }
     center.x = tempX/((double)res.size());
     center.y = tempY/((double)res.size());
-
     sort(res.begin(), res.end(), comp());
+
+    cout << fixed << setprecision(5);
     cout << res.size() << endl;
     int startIndex = 0;
     for(int i=1; i<res.size(); i++)
@@ -217,6 +231,4 @@ int main(int argc, char** argv)
         startIndex %= res.size();
     }
     res[endIndex].print();
-    
-    return 0;
 }

@@ -30,14 +30,14 @@ struct Point
     }
     void print()
     {
-        cout << "(" << x << ", " << y << ")" << endl;
-        //cout << x << ", " << y <<  endl;
+        //cout << "(" << x << ", " << y << ")" << endl;
+        cout << x << ", " << y <<  endl;
     }
     double x;
     double y;
 };
 
-const double threshold = 0.00000001;
+const double threshold = 0.0000001;
 struct Line
 {
     //y=mx+b

@@ -11,7 +11,7 @@ clean:
 	rm -f *.o main
 
 run:
-	./main points_1000.txt
+	./main points_500000.txt
 
 runTime:
 	./main points_10.txt
