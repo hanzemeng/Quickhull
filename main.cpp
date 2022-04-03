@@ -4,6 +4,7 @@
 #include <vector>
 #include <chrono>
 #include <cmath>
+#include <algorithm>
 using namespace std;
 using std::chrono::duration_cast;
 using std::chrono::microseconds;
