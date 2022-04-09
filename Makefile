@@ -1,17 +1,14 @@
 prog1: prog1.o Line.o
 	g++ prog1.o Line.o -std=c++17 -Wall -o prog1
 
-prog1.o: prog1.cpp Line.cpp
+prog1.o: prog1.cpp Line.h
 	g++ prog1.cpp -std=c++17 -Wall -c
 
-Line.o: Line.cpp
+Line.o: Line.cpp Line.h
 	g++ Line.cpp -std=c++17 -Wall -c
 
 clean:
 	rm -f *.o prog1
-
-run:
-	./prog1 points_50.txt
 
 runTime:
 	./prog1 points_10.txt

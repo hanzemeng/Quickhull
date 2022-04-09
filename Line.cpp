@@ -1,99 +1,90 @@
-#include <string>
-#include <cmath>
-#include <iostream>
+#include "Line.h"
 using namespace std;
 
-struct Point
-{
-    Point(double a=0, double b=0)
-    {
-        x = a;
-        y = b;
-    }
-    Point(string data)
-    {
-        string temp = "";
-        for(int i=0; i<data.size(); i++)
-        {
-            if(',' == data[i])
-            {
-                x = stod(temp);
-                i++;
-                temp = "";
-            }
-            else
-            {
-                temp += data[i];
-            }
-        }
-        y = stod(temp);
-    }
-    void print()
-    {
-        //cout << "(" << x << ", " << y << ")" << endl;
-        cout << x << ", " << y <<  endl;
-    }
-    double x;
-    double y;
-};
+int Point::COUNT = -1;
 
-const double threshold = 0.0000001;
-struct Line
+Point::Point(double a, double b)
 {
-    //y=mx+b
-    Line(Point& p1, Point& p2)
+    x = a;
+    y = b;
+    ID = COUNT++;
+}
+Point::Point(string data)
+{
+    string temp = "";
+    for(int i=0; i<data.size(); i++)
     {
-        if(abs(p1.x-p2.x)<threshold)
+        if(',' == data[i])
         {
-            m = INFINITY;
-            b = p1.x;
+            x = stod(temp);
+            i++;
+            temp = "";
         }
         else
         {
-            m = (p1.y-p2.y)/(p1.x-p2.x);
-            b = p1.y-m*p1.x;
+            temp += data[i];
         }
     }
-    bool isAbove(Point& a)
+    y = stod(temp);
+    ID = COUNT++;
+}
+void Point::print()
+{
+    //cout << "(" << x << ", " << y << ")" << endl;
+    cout << ID << ", " << x << ", " << y <<  endl;
+}
+
+
+Line::Line(Point& p1, Point& p2)
+{
+    if(abs(p1.x-p2.x)<threshold)
     {
-        if(INFINITY == m)
-        {
-            return false;
-        }
-        double lineY = m*a.x+b;
-        if(abs(lineY-a.y)<threshold)
-        {
-            return false;
-        }
-        return a.y>lineY;
+        m = INFINITY;
+        b = p1.x;
     }
-    bool isBelow(Point& a)
+    else
     {
-        if(INFINITY == m)
-        {
-            return false;
-        }
-        double lineY = m*a.x+b;
-        if(abs(lineY-a.y)<threshold)
-        {
-            return false;
-        }
-        return a.y<lineY;
+        m = (p1.y-p2.y)/(p1.x-p2.x);
+        b = p1.y-m*p1.x;
     }
-    double distanceFrom(Point& a)
+}
+bool Line::isAbove(Point& a)
+{
+    if(INFINITY == m)
     {
-        if(INFINITY == m)
-        {
-            return abs(a.x-b);
-        }
-        double top = abs(m*a.x-a.y+b);
-        double bottom = sqrt(m*m+1);
-        return top/bottom;
+        return false;
     }
-    void print()
+    double lineY = m*a.x+b;
+    if(abs(lineY-a.y)<threshold)
     {
-        cout << m << "x+" << b << endl;
+        return false;
     }
-    double m;
-    double b;
-};
+    return a.y>lineY;
+}
+bool Line::isBelow(Point& a)
+{
+    if(INFINITY == m)
+    {
+        return false;
+    }
+    double lineY = m*a.x+b;
+    if(abs(lineY-a.y)<threshold)
+    {
+        return false;
+    }
+    return a.y<lineY;
+}
+double Line::distanceFrom(Point& a)
+{
+    if(INFINITY == m)
+    {
+        return abs(a.x-b);
+    }
+    double top = abs(m*a.x-a.y+b);
+    double bottom = sqrt(m*m+1);
+    return top/bottom;
+}
+void Line::print()
+{
+    cout << m << "x+" << b << endl;
+}

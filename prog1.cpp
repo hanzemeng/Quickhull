@@ -3,11 +3,12 @@
 #include <iomanip> 
 #include <string>
 #include <vector>
+#include <utility>
 #include <cmath>
 #include <algorithm>
 using namespace std;
 
-#include "Line.cpp"
+#include "Line.h"
 
 vector<Point> res;
 vector<Point> aboveLine;
@@ -34,8 +35,11 @@ void setUp(string path)
     inFile.open(path);
     string temp;
     getline(inFile, temp);
-
     vector<Point> points;
+    points.reserve(stoi(temp));
+    aboveLine.reserve(stoi(temp)*3/4);
+    belowLine.reserve(stoi(temp)*3/4);
+
     while(!inFile.eof())
     {
         getline(inFile, temp);
@@ -60,8 +64,8 @@ void setUp(string path)
             rightestPoint = i;
         }
     }
-    res.push_back(points[leftestPoint]);
-    res.push_back(points[rightestPoint]);
+    res.push_back(move(points[leftestPoint]));
+    res.push_back(move(points[rightestPoint]));
 
     Line middleLine{points[leftestPoint], points[rightestPoint]};
     for(int i=0; i<points.size(); i++)
@@ -72,11 +76,11 @@ void setUp(string path)
         }
         if(middleLine.isAbove(points[i]))
         {
-            aboveLine.push_back(points[i]);
+            aboveLine.push_back(move(points[i]));
         }
-        else
+        else if (middleLine.isBelow(points[i]))
         {
-            belowLine.push_back(points[i]);
+            belowLine.push_back(move(points[i]));
         }
     }
 }
@@ -101,6 +105,7 @@ void solveAbove(vector<Point>& points, Point left, Point right)
     Line l2{points[furthestPoint], right};
     vector<Point> points1;
     vector<Point> points2;
+
     for(int i=0; i<points.size(); i++)
     {
         if(furthestPoint == i)
@@ -109,13 +114,14 @@ void solveAbove(vector<Point>& points, Point left, Point right)
         }
         if(l1.isAbove(points[i]))
         {
-            points1.push_back(points[i]);
+            points1.push_back(move(points[i]));
         }
         else if(l2.isAbove(points[i]))
         {
-            points2.push_back(points[i]);
+            points2.push_back(move(points[i]));
         }
     }
+
     solveAbove(points1, left, points[furthestPoint]);
     solveAbove(points2, points[furthestPoint], right);
 }
@@ -139,6 +145,7 @@ void solveBelow(vector<Point>& points, Point left, Point right)
     Line l2{points[furthestPoint], right};
     vector<Point> points1;
     vector<Point> points2;
+
     for(int i=0; i<points.size(); i++)
     {
         if(furthestPoint == i)
@@ -147,13 +154,14 @@ void solveBelow(vector<Point>& points, Point left, Point right)
         }
         if(l1.isBelow(points[i]))
         {
-            points1.push_back(points[i]);
+            points1.push_back(move(points[i]));
         }
         else if(l2.isBelow(points[i]))
         {
-            points2.push_back(points[i]);
+            points2.push_back(move(points[i]));
         }
     }
+
     solveBelow(points1, left, points[furthestPoint]);
     solveBelow(points2, points[furthestPoint], right);
 }
