@@ -5,8 +5,7 @@
 #include <cmath>
 #include <iostream>
 
-
-const double threshold = 0.0000001;
+const double threshold = 0.0000001; // Floating point comparison tends to be inaccurate
 struct Point
 {
     Point(double a=0, double b=0);

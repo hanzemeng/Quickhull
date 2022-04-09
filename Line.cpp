@@ -1,7 +1,7 @@
 #include "Line.h"
 using namespace std;
 
-int Point::COUNT = -1;
+int Point::COUNT = -1; //for indexing each point
 
 Point::Point(double a, double b)
 {

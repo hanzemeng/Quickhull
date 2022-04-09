@@ -15,10 +15,10 @@ vector<Point> aboveLine;
 vector<Point> belowLine;
 Point center;
 
-void setUp(string path);
-void solveAbove(vector<Point>& points, Point left, Point right);
-void solveBelow(vector<Point>& points, Point left, Point right);
-void sortAndRemoveCollinearAndPrint();
+void setUp(string path); // read in data and draw the initial line
+void solveAbove(vector<Point>& points, Point left, Point right); // solve for all points above the initial line
+void solveBelow(vector<Point>& points, Point left, Point right); // solve for all points below the initial line
+void sortAndRemoveCollinearAndPrint(); // modify the result and print it
 
 int main(int argc, char** argv)
 {
