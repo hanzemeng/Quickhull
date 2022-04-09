@@ -1,30 +1,30 @@
-main: main.o Line.o
-	g++ main.o Line.o -std=c++17 -Wall -o main
+prog1: prog1.o Line.o
+	g++ prog1.o Line.o -std=c++17 -Wall -o prog1
 
-main.o: main.cpp Line.cpp
-	g++ main.cpp -std=c++17 -Wall -c
+prog1.o: prog1.cpp Line.cpp
+	g++ prog1.cpp -std=c++17 -Wall -c
 
 Line.o: Line.cpp
 	g++ Line.cpp -std=c++17 -Wall -c
 
 clean:
-	rm -f *.o main
+	rm -f *.o prog1
 
 run:
-	./main points_500000.txt
+	./prog1 points_50.txt
 
 runTime:
-	./main points_10.txt
-	./main points_20.txt
-	./main points_30.txt
-	./main points_40.txt
-	./main points_50.txt
-	./main points_100.txt
-	./main points_500.txt
-	./main points_1000.txt
-	./main points_5000.txt
-	./main points_10000.txt
-	./main points_50000.txt
-	./main points_100000.txt
-	./main points_500000.txt
-	./main points_1000000.txt
+	./prog1 points_10.txt
+	./prog1 points_20.txt
+	./prog1 points_30.txt
+	./prog1 points_40.txt
+	./prog1 points_50.txt
+	./prog1 points_100.txt
+	./prog1 points_500.txt
+	./prog1 points_1000.txt
+	./prog1 points_5000.txt
+	./prog1 points_10000.txt
+	./prog1 points_50000.txt
+	./prog1 points_100000.txt
+	./prog1 points_500000.txt
+	./prog1 points_1000000.txt

@@ -43,11 +43,23 @@ struct Line
     //y=mx+b
     Line(Point& p1, Point& p2)
     {
-        m = (p1.y-p2.y)/(p1.x-p2.x);
-        b = p1.y-m*p1.x;
+        if(abs(p1.x-p2.x)<threshold)
+        {
+            m = INFINITY;
+            b = p1.x;
+        }
+        else
+        {
+            m = (p1.y-p2.y)/(p1.x-p2.x);
+            b = p1.y-m*p1.x;
+        }
     }
     bool isAbove(Point& a)
     {
+        if(INFINITY == m)
+        {
+            return false;
+        }
         double lineY = m*a.x+b;
         if(abs(lineY-a.y)<threshold)
         {
@@ -57,6 +69,10 @@ struct Line
     }
     bool isBelow(Point& a)
     {
+        if(INFINITY == m)
+        {
+            return false;
+        }
         double lineY = m*a.x+b;
         if(abs(lineY-a.y)<threshold)
         {
@@ -66,6 +82,10 @@ struct Line
     }
     double distanceFrom(Point& a)
     {
+        if(INFINITY == m)
+        {
+            return abs(a.x-b);
+        }
         double top = abs(m*a.x-a.y+b);
         double bottom = sqrt(m*m+1);
         return top/bottom;

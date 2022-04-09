@@ -6,12 +6,6 @@
 #include <cmath>
 #include <algorithm>
 using namespace std;
-/*
-#include <chrono>
-using std::chrono::duration_cast;
-using std::chrono::microseconds;
-using std::chrono::system_clock;
-*/
 
 #include "Line.cpp"
 
@@ -23,21 +17,14 @@ Point center;
 void setUp(string path);
 void solveAbove(vector<Point>& points, Point left, Point right);
 void solveBelow(vector<Point>& points, Point left, Point right);
-void sortAndPrint();
+void sortAndRemoveCollinearAndPrint();
 
 int main(int argc, char** argv)
 {
-    string inputPath = "test/";
-    inputPath += argv[1];
-    /*
-    auto begin = duration_cast<microseconds>(system_clock::now().time_since_epoch()).count();
-    auto end = duration_cast<microseconds>(system_clock::now().time_since_epoch()).count();
-    cout << end-begin << endl;
-    */
-    setUp(inputPath);
+    setUp(argv[1]);
     solveAbove(aboveLine, res[0], res[1]);
     solveBelow(belowLine, res[0], res[1]);
-    sortAndPrint();
+    sortAndRemoveCollinearAndPrint();
     return 0;
 }
 
@@ -189,7 +176,7 @@ public:
         return aAngle<bAngle;
     }
 };
-void sortAndPrint()
+void sortAndRemoveCollinearAndPrint()
 {
     double tempX = 0;
     double tempY = 0;
@@ -202,9 +189,33 @@ void sortAndPrint()
     center.y = tempY/((double)res.size());
     sort(res.begin(), res.end(), comp());
 
+    int startIndex = 0;
+    int endIndex = 2;
+    while(endIndex<res.size())
+    {
+        Line l{res[startIndex], res[endIndex]};
+        if(l.distanceFrom(res[endIndex-1]) < threshold)
+        {
+            res.erase(res.begin()+endIndex-1);
+        }
+        else
+        {
+            startIndex++;
+            endIndex++;
+        }
+    }
+    if(res.size()>3)
+    {
+        Line l{res[1], res.back()};
+        if(l.distanceFrom(res[0]) < threshold)
+        {
+            res.erase(res.begin());
+        }
+    }
+
     cout << fixed << setprecision(5);
     cout << res.size() << endl;
-    int startIndex = 0;
+    startIndex = 0;
     for(int i=1; i<res.size(); i++)
     {
         if(res[startIndex].y > res[i].y)
@@ -219,7 +230,7 @@ void sortAndPrint()
             }
         }
     }
-    int endIndex = startIndex-1;
+    endIndex = startIndex-1;
     if(endIndex<0)
     {
         endIndex += res.size();
