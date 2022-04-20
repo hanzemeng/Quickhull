@@ -5,11 +5,11 @@
 
 # Input File Format
 The first line is the number of points. The rest of the lines are "<x_coor>, <y_coor>". There must be exactly one space after the comma.
-For example, an input file might look like:
-4
--0.5, -0.5
--0.5, 0.5
-0.5, -0.5
+For example, an input file might look like:__
+4__
+-0.5, -0.5__
+-0.5, 0.5__
+0.5, -0.5__
 0.5, 0.5
 
 # Explaining prog1.cpp
